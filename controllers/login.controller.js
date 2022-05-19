@@ -4,8 +4,8 @@ import getHash from '../helperfunctions/hashsession.js';
 import { validateForm } from '../helperfunctions/formvalidation.js';
 
 class LoginController {
-  constructor(pool) {
-    this.pool = pool;
+  constructor(db) {
+    this.db = db;
   }
 
   getLogin = async (request, response) => {
@@ -20,14 +20,18 @@ class LoginController {
   loginUser = async (request, response) => {
     try {
       const user = { ...request.body };
-      const checkEmail = await this.pool.query(`SELECT * FROM users WHERE email='${user.email}'`);
-      console.log('check', checkEmail);
+      const userEmail = user.email;
+      const checkEmail = await this.db.User.findOne({  
+        where: {
+          email: userEmail
+        }
+      })
 
-      if (checkEmail.rows.length === 0) {
+      if (checkEmail === null) {
         throw new Error('email does not exist');
       }
 
-      const storedUser = checkEmail.rows[0];
+      const storedUser = checkEmail.toJSON();
       // check if password is correct
       const hashedUserPassword = getHash(user.password);
 

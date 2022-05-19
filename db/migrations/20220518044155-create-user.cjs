@@ -1,6 +1,6 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Users', {
+    await queryInterface.createTable('users', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -38,7 +38,7 @@ module.exports = {
       },
     });
 
-    await queryInterface.createTable('Projects', {
+    await queryInterface.createTable('projects', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -63,7 +63,7 @@ module.exports = {
       created_by: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'Users',
+          model: 'users',
           key: 'id',
         },
       },
@@ -77,7 +77,7 @@ module.exports = {
       },
     });
 
-    await queryInterface.createTable('Tasks', {
+    await queryInterface.createTable('tasks', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -99,21 +99,21 @@ module.exports = {
       proj_id: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'Projects',
+          model: 'projects',
           key: 'id',
         },
       },
       created_by: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'Users',
+          model: 'users',
           key: 'id',
         },
       },
       assigned_to: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'Users',
+          model: 'users',
           key: 'id',
         },
       },
@@ -127,7 +127,7 @@ module.exports = {
       },
     });
 
-    await queryInterface.createTable('Users_Friends', {
+    await queryInterface.createTable('user_friends', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -137,14 +137,14 @@ module.exports = {
       user_id: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'Users',
+          model: 'users',
           key: 'id',
         },
       },
       friend_id: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'Users',
+          model: 'users',
           key: 'id',
         },
       },
@@ -158,7 +158,7 @@ module.exports = {
       },
     });
 
-    await queryInterface.createTable('Messages', {
+    await queryInterface.createTable('messages', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -168,14 +168,14 @@ module.exports = {
       send_to: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'Users',
+          model: 'users',
           key: 'id',
         },
       },
       task_id: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'Tasks',
+          model: 'tasks',
           key: 'id',
         },
       },
@@ -193,10 +193,10 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Users_Friends');
-    await queryInterface.dropTable('Messages');
-    await queryInterface.dropTable('Tasks');
-    await queryInterface.dropTable('Projects');
-    await queryInterface.dropTable('Users');
+    await queryInterface.dropTable('users_friends');
+    await queryInterface.dropTable('messages');
+    await queryInterface.dropTable('tasks');
+    await queryInterface.dropTable('projects');
+    await queryInterface.dropTable('users');
   },
 };

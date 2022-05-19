@@ -1,14 +1,14 @@
+/* eslint-disable class-methods-use-this */
 import getHash from '../helperfunctions/hashsession.js';
 import { validateForm } from '../helperfunctions/formvalidation.js';
 
 class SignupController {
-  constructor(pool) {
-    this.pool = pool;
+  constructor(db) {
+    this.db = db;
   }
 
   getSignupForm = async (request, response) => {
     try {
-      await this.pool.query('SELECT * FROM users');
       const validate = validateForm('', '', 'Enter valid password', 'Enter valid email');
       response.render('signup', validate);
     } catch (error) {
@@ -19,21 +19,34 @@ class SignupController {
   signupUser = async (request, response) => {
     try {
       const user = { ...request.body };
-      const checkEmail = await this.pool.query(`SELECT * FROM users WHERE email='${user.email}'`);
+      const checkEmail = await this.db.User.findOne({  
+        where: {
+          email: user.email
+        }
+      });
 
-      if (checkEmail.rows.length > 0) {
+      if (checkEmail !== null) {
         throw new Error('registered email');
       }
 
       const hashedPassword = getHash(user.password);
-      const values = [user.name, user.email, hashedPassword];
-      await this.pool.query('INSERT INTO users (name, email, password) VALUES ($1, $2, $3) RETURNING id', values);
+      console.log(hashedPassword)
+
+      const createdUser = await this.db.User.create({  
+        name: user.name,
+        email: user.email, 
+        password: hashedPassword,
+
+      });
+
+      console.log(createdUser.toJSON());
       response.redirect('/');
     } catch (error) {
       if (error.message === 'registered email') {
         const validate = validateForm('is-invalid', '', 'Enter valid password', 'Email has already been registered');
         response.render('signup', validate);
       }
+      console.log(error)
     }
   }
 }

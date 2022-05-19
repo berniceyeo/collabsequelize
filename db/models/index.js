@@ -1,5 +1,5 @@
 /* eslint-disable comma-dangle */
-import { Sequelize } from 'sequelize';
+import sequelizePackage from 'sequelize';
 import allConfig from '../../sequelize.config.cjs';
 
 import initMessageModel from './message.mjs';
@@ -7,6 +7,7 @@ import initTaskModel from './task.mjs';
 import initUserModel from './user.mjs';
 import initProjectModel from './project.mjs';
 
+const { Sequelize } = sequelizePackage;
 const env = process.env.NODE_ENV || 'development';
 const config = allConfig[env];
 const db = {};
