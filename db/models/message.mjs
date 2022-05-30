@@ -11,25 +11,25 @@ export default function initMessageModel(sequelize, DataTypes) {
       send_to: {
         type: DataTypes.INTEGER,
         references: {
-          model: 'Users',
+          model: 'users',
           key: 'id',
         },
       },
       task_id: {
         type: DataTypes.INTEGER,
         references: {
-          model: 'Tasks',
+          model: 'tasks',
           key: 'id',
         },
       },
       accept: {
         type: DataTypes.STRING,
       },
-      created_at: {
+      createdAt: {
         allowNull: false,
         type: DataTypes.DATE,
       },
-      updated_at: {
+      updatedAt: {
         allowNull: false,
         type: DataTypes.DATE,
       },

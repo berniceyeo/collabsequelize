@@ -23,29 +23,29 @@ export default function initTaskModel(sequelize, DataTypes) {
       proj_id: {
         type: DataTypes.INTEGER,
         references: {
-          model: 'Projects',
+          model: 'projects',
           key: 'id',
         },
       },
       created_by: {
         type: DataTypes.INTEGER,
         references: {
-          model: 'Users',
+          model: 'users',
           key: 'id',
         },
       },
       assigned_to: {
         type: DataTypes.INTEGER,
         references: {
-          model: 'Users',
+          model: 'users',
           key: 'id',
         },
       },
-      created_at: {
+      createdAt: {
         allowNull: false,
         type: DataTypes.DATE,
       },
-      updated_at: {
+      updatedAt: {
         allowNull: false,
         type: DataTypes.DATE,
       },

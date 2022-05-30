@@ -2,14 +2,14 @@ import { Router } from 'express';
 
 import authenticate from '../helperfunctions/authenticate.js';
 import getDetails from '../helperfunctions/userdetails.js';
-import pool from '../helperfunctions/pool.js';
+import db from '../db/models/index.js'
 
 import ProjectController from '../controllers/allprojects.controller.js';
 
 const router = Router();
 const prefix = '/projects';
 
-const projectController = new ProjectController(pool);
+const projectController = new ProjectController(db);
 
 router.get(`${prefix}`, authenticate, getDetails, projectController.getUserProjects);
 router.get(`${prefix}/add`, authenticate, getDetails, projectController.addProjectForm);

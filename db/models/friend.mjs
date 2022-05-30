@@ -1,41 +1,32 @@
-export default function initProjectModel(sequelize, DataTypes) {
+export default function initUserModel(sequelize, DataTypes) {
   return sequelize.define(
-    'project',
+    'users_friend',
     {
-      id: {
+    id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: DataTypes.INTEGER,
       },
-      name: {
-        type: DataTypes.STRING,
-      },
-      description: {
-        type: DataTypes.STRING,
-      },
-      due_date: {
-        type: DataTypes.STRING,
-      },
-      status: {
-        type: DataTypes.STRING,
-      },
-      progress: {
-        type: DataTypes.INTEGER,
-      },
-      created_by: {
+      user_id: {
         type: DataTypes.INTEGER,
         references: {
           model: 'users',
           key: 'id',
         },
       },
-      createdAt: {
+      friend_id: {
+        type: DataTypes.INTEGER,
+        references: {
+          model: 'users',
+          key: 'id',
+        },
+      },
+      created_at: {
         allowNull: false,
         type: DataTypes.DATE,
       },
-      
-      updatedAt: {
+      updated_at: {
         allowNull: false,
         type: DataTypes.DATE,
       },
