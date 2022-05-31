@@ -1,8 +1,8 @@
 export default function initUserModel(sequelize, DataTypes) {
   return sequelize.define(
-    'users_friend',
+    "users_friend",
     {
-    id: {
+      id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
@@ -11,22 +11,22 @@ export default function initUserModel(sequelize, DataTypes) {
       user_id: {
         type: DataTypes.INTEGER,
         references: {
-          model: 'users',
-          key: 'id',
+          model: "users",
+          key: "id",
         },
       },
       friend_id: {
         type: DataTypes.INTEGER,
         references: {
-          model: 'users',
-          key: 'id',
+          model: "users",
+          key: "id",
         },
       },
-      created_at: {
+      createdAt: {
         allowNull: false,
         type: DataTypes.DATE,
       },
-      updated_at: {
+      updatedAt: {
         allowNull: false,
         type: DataTypes.DATE,
       },
@@ -34,6 +34,6 @@ export default function initUserModel(sequelize, DataTypes) {
     {
       // The underscored option makes Sequelize reference snake_case names in the DB.
       underscored: true,
-    },
+    }
   );
 }

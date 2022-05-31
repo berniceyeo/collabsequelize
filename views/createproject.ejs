@@ -144,8 +144,8 @@
                         required
                       />
                       <datalist id="friends">
-                        <% if(friends.friends.length > 0) { %> <%
-                        friends.forEach((friend)=>{ %>
+                        <% if(friends.userFriend.length > 0) { %> <%
+                        friends.userFriend.forEach((friend)=>{ %>
                         <option value="<%= friend.email %>"
                           ><%= friend.name %>
                         </option>

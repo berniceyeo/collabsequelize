@@ -21,7 +21,7 @@ class ProjectController {
         include: [
           {
             model: this.db.Friend,
-            as: "friends",
+            as: "userFriend",
           },
         ],
       });

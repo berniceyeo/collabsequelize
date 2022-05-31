@@ -113,7 +113,7 @@
               <% friends.forEach((friend) => { %>
               <div class="col">
                 <div class="card shadow p-3 mb-5 bg-body rounded">
-                  <% if(friend.photo === null) { %>
+                  <% if(friend.friends.photo === null) { %>
                   <img
                     src="/friend.jpg"
                     class="card-img-top"
@@ -123,7 +123,7 @@
                   />
                   <% } else { %>
                   <img
-                    src="<%= friend.photo %>"
+                    src="<%= friend.friends.photo %>"
                     class="card-img-top"
                     alt="friend photo"
                     height="250"
@@ -132,10 +132,10 @@
                   <% } %>
                   <div class="card-body">
                     <h5 class="card-title lead text-capitalize">
-                      <%= friend.name %>
+                      <%= friend.friends.name %>
                     </h5>
                     <form
-                      action="/teammates/<%= friend.friend_id %>?_method=DELETE"
+                      action="/teammates/<%= friend.id %>?_method=DELETE"
                       method="POST"
                     >
                       <div class="d-grid col-12 mx-auto">
