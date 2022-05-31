@@ -1,17 +1,23 @@
-import pool from './pool.js';
+import db from "../db/models/index.js";
 
-const getDetails = (request, response, next) => {
-  const { userId } = request;
-  pool.query(`SELECT * FROM users WHERE id=${userId}`).then((results) => {
-    const { name } = results.rows[0];
-    const { photo } = results.rows[0];
+const getDetails = async (request, response, next) => {
+  try {
+    const { userId } = request;
+    const user = await db.User.findOne({
+      where: {
+        id: userId,
+      },
+    });
+
     const navbar = {
-      photo,
-      name,
+      photo: user.photo,
+      name: user.name,
     };
     request.navbar = navbar;
     next();
-  });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export default getDetails;
