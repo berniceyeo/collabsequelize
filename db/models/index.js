@@ -49,7 +49,7 @@ db.User.hasMany(db.Friend, {as: 'friends', foreignKey: 'friend_id'});
 db.Friend.belongsTo(db.User, {as: 'user', foreignKey:'user_id'})
 db.Friend.belongsTo(db.User, {as: 'friends', foreignKey: 'friend_id'})
 
-db.User.belongsToMany(db.Task, { through: db.Message });
+db.User.belongsToMany(db.Task, { through: db.Message, foreignKey: 'send_to'});
 db.Task.belongsToMany(db.User, { through: db.Message });
 
 db.Task.hasMany(db.Message);

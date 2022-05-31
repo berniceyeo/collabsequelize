@@ -1,6 +1,6 @@
 const addSentProperty = (array, str) => {
   array.forEach((element) => {
-    element.sent = str;
+    element.dataValues.sent = str;
   });
   return array;
 };

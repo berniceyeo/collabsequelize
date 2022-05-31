@@ -2,21 +2,53 @@ import addSentProperty from '../helperfunctions/addSent.js';
 import dynamicSort from '../helperfunctions/sorting.js';
 
 class InboxController {
-  constructor(pool) {
-    this.pool = pool;
+  constructor(db) {
+    this.db = db;
   }
 
   getInbox = async (request, response) => {
     try {
       const { navbar, userId } = request;
       const { sortBy } = request.query;
+      
+      const preReceivedTasks = await this.db.Message.findAll({
+        where:{
+          send_to: userId
+        },
+        include: {
+          model: this.db.Task,
+          include: [{
+            model: this.db.User,
+            as: 'createdBy'
+          }, {
+            model: this.db.User,
+            as:'assignedTo'
+          }]
+        },
+      });
+      
+      const receivedTasks = addSentProperty(preReceivedTasks, 'received');
 
-      const prereceivedTasks = await this.pool.query(`SELECT tasks.name, tasks.id, tasks.due_date, tasks.accepted, tasks.status, tasks.created_by, messages.accept, messages.task_id, messages.id AS messagesId, messages.send_to, users.name AS username, users.id, users.email FROM tasks INNER JOIN users ON tasks.created_by = users.id INNER JOIN messages ON messages.task_id = tasks.id WHERE messages.send_to='${userId}'`);
-      const receivedTasks = addSentProperty(prereceivedTasks.rows, 'received');
-      const presentTasks = await this.pool.query(`SELECT tasks.name, tasks.id, tasks.due_date, tasks.accepted, tasks.status, tasks.created_by, messages.accept, messages.task_id, users.name AS username, users.id, users.email, messages.send_to, messages.id AS messagesId FROM messages INNER JOIN tasks ON messages.task_id = tasks.id INNER JOIN users ON messages.send_to = users.id WHERE tasks.created_by='${userId}'`);
-      const sentTasks = addSentProperty(presentTasks.rows, 'sent');
+      const preSentTasks = await this.db.Message.findAll({
+        include: {
+          model: this.db.Task,
+          where:{
+            created_by: userId
+          },
+          include: [{
+            model: this.db.User,
+            as: 'createdBy'
+          }, {
+            model: this.db.User,
+            as:'assignedTo'
+          }]
+        },
+      });
+
+      const sentTasks = addSentProperty(preSentTasks, 'sent');
       const pretotalTasks = [...receivedTasks, ...sentTasks];
-      const totalTasks = dynamicSort(sortBy, pretotalTasks);
+      const sortedTotalTasks = dynamicSort(sortBy, pretotalTasks);
+      const totalTasks = sortedTotalTasks.map((task) => task.dataValues)
 
       response.render('inbox', {
         totalTasks, navbar, inboxId: userId,

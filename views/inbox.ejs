@@ -45,10 +45,11 @@
 
               <% } else { %> 
                 <% totalTasks.forEach((task) => { %>
+                  <% console.log(task.sent) %> 
                   <!-- For the tasks that need to be accepted -->
                   <% if(task.sent === "received") { %>
                  <a
-                href="/task/<%= task.messagesid %>/accept"
+                href="/task/<%= task.id %>/accept"
                 class="text-decoration-none text-secondary"
               >
                 <% if(task.accept === 'pending') { %>
@@ -58,14 +59,14 @@
                 <% } %>
            
                   <div class="col-12 lead fs-6 text-warning ">
-                    <%= task.username %>
+                    <%= task.task.createdBy.name %>
                   </div>
                   <div class="col-12 lead fs-6">
-                    The user <%= task.email %> has sent you a request to accept
+                    The user <%= task.task.createdBy.email %> has sent you a request to accept
                     task,
-                    <span class="text-black"> <%= task.name %> </span> and is
+                    <span class="text-black"> <%= task.task.name %> </span> and is
                     due on
-                    <span class="text-black"> <%= task.due_date %> </span>
+                    <span class="text-black"> <%= task.task.due_date %> </span>
                   </div>
                 </div>
               </a>
@@ -75,7 +76,7 @@
               <p class="visually-hidden"></p>
               <% } else { %>
               
-              <a href="/task/<%= task.messagesid %>/resend" class="text-decoration-none text-secondary">  
+              <a href="/task/<%= task.id %>/resend" class="text-decoration-none text-secondary">  
 
               <% if(task.accepted === "no" || task.accepted==="accepted") { %>
               <div class="row shadow-sm p-3 mb-3 bg-light rounded border">          
@@ -87,7 +88,7 @@
                     Admin
                   </div>
                   <div class="col-12 lead fs-6">
-                  The request that you have sent to <%= task.email %> regarding 
+                  The request that you have sent to <%= task.task.assignedTo.email %> regarding 
                     <span class="text-black"> <%= task.name %> </span> 
                     has been <%= task.accept %> 
                   </div>
