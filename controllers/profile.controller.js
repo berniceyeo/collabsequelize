@@ -6,11 +6,7 @@ class ProfileController {
   getProfile = async (request, response) => {
     try {
       const { navbar, userId } = request;
-      const getUser = await this.db.User.findOne({
-        where: {
-          id: userId,
-        },
-      });
+      const getUser = await this.db.User.findByPk(userId);
 
       const user = getUser.toJSON();
       response.render("profile", { navbar, user });

@@ -167,13 +167,7 @@ class ProjectController {
       for (let i = 0; i < tasks.length; i++) {
         const task = tasks[i];
         const receiptId = task.assigned_to;
-        console.log(receiptId);
-        const users = await this.db.User.findOne({
-          where: {
-            id: receiptId,
-          },
-        });
-
+        const users = await this.db.User.findByPk(receiptId);
         const user = users.toJSON();
         task.user_email = user.email;
         task.formatdate = moment(tasks[i].due_date).format("YYYY-MM-DDTHH:MM");
@@ -325,14 +319,9 @@ class ProjectController {
     try {
       const projId = Number(request.params.id);
       const { navbar } = request;
-      const proj = await this.db.Project.findOne({
-        where: {
-          id: projId,
-        },
-      });
 
+      const proj = await this.db.Project.findByPk(projId);
       const project = proj.toJSON();
-
       const tasks = await this.db.Task.findAll({
         where: {
           proj_id: projId,
