@@ -24,7 +24,10 @@
             <div class="row shadow p-3 mb-3 bg-body rounded lead fs-6">
               <div class="container">
                 <div>
-                  The user <span class="text-warning"><%= task.email %> </span>
+                  The user
+                  <span class="text-warning"
+                    ><%= task.task.createdBy.email %>
+                  </span>
                   has requested you to accept a task below. Please indicate your
                   response. Once you have accepted, the task should appear in
                   your all tasks.
@@ -33,17 +36,17 @@
                 <dl class="row p-3">
                   <dt class="col-sm-3 text-secondary">Name</dt>
                   <dd class="col-sm-9 text-capitalize">
-                    <%= task.name %>
+                    <%= task.task.name %>
                   </dd>
 
                   <dt class="col-sm-3 text-secondary ">Due Date</dt>
                   <dd class="col-sm-9">
-                    <%= task.due_date %>
+                    <%= task.task.due_date %>
                   </dd>
 
                   <dt class="col-sm-3 mb-0 text-secondary ">Sent By</dt>
                   <dd class="col-sm-9 mb-0">
-                    <%= task.username %>
+                    <%= task.task.username %>
                   </dd>
                 </dl>
                 <div class="row mb-3">
@@ -78,7 +81,7 @@
             <% } else { %>
 
             <form
-              action="/task/<%= task.messagesid %>/accept"
+              action="/task/<%= task.id %>/accept"
               method="POST"
               id="acceptform"
               class="needs-validation"
@@ -102,7 +105,9 @@
                 <div class="container">
                   <div>
                     The user
-                    <span class="text-warning"><%= task.email %> </span>
+                    <span class="text-warning"
+                      ><%= task.task.createdBy.email %>
+                    </span>
                     has requested you to accept a task below. Please indicate
                     your response. Once you have accepted, the task should
                     appear in your all tasks.
@@ -111,17 +116,17 @@
                   <dl class="row p-3">
                     <dt class="col-sm-3 text-secondary">Name</dt>
                     <dd class="col-sm-9 text-capitalize">
-                      <%= task.name %>
+                      <%= task.task.name %>
                     </dd>
 
                     <dt class="col-sm-3 text-secondary ">Due Date</dt>
                     <dd class="col-sm-9">
-                      <%= task.due_date %>
+                      <%= task.task.due_date %>
                     </dd>
 
                     <dt class="col-sm-3 mb-0 text-secondary ">Sent By</dt>
                     <dd class="col-sm-9 mb-0">
-                      <%= task.username %>
+                      <%= task.task.createdBy.name %>
                     </dd>
                   </dl>
                   <% if(task.accept === "rejected") { %>

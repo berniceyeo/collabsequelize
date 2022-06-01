@@ -1,17 +1,17 @@
-import moment from 'moment';
+import moment from "moment";
 
 const checkDueDate = (array) => {
   array.forEach((task) => {
-    const dueDate = task.due_date;
+    const dueDate = moment(task.due_date);
     const checkforOverDue = moment().isAfter(dueDate);
     const checkforDue = moment().isSame(dueDate);
 
     if (checkforOverDue === true) {
-      task.due = 'Overdue';
+      task.due = "Overdue";
     } else if (checkforDue === true) {
-      task.due = 'Due today';
+      task.due = "Due today";
     } else {
-      task.due = '';
+      task.due = "";
     }
   });
   return array;
